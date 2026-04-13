@@ -66,6 +66,9 @@ router.post("/", async (req, res) => {
         .status(400)
         .json({ error: "Birthday must be a valid date in YYYY-MM-DD format" });
     }
+    if (new Date(birthday) > new Date()) {
+      return res.status(400).json({ error: "Birthday cannot be in the future" });
+    }
   }
 
   const existingAccount = await prisma.account.findUnique({
@@ -286,6 +289,9 @@ router.patch("/me", requireAuth, requireRole("regular"), async (req, res) => {
     return res
       .status(400)
       .json({ error: "birthday must be a valid date in YYYY-MM-DD format" });
+  }
+  if (birthday !== undefined && new Date(birthday) > new Date()) {
+    return res.status(400).json({ error: "Birthday cannot be in the future" });
   }
   if (avatar !== undefined && avatar !== null && typeof avatar !== "string") {
     return res.status(400).json({ error: "avatar must be a string" });

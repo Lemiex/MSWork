@@ -13,8 +13,6 @@ interface Job {
   salary_max: number;
   start_time: string;
   end_time: string;
-  distance?: number;
-  eta?: number;
 }
 interface Qualification { id: number; status: string; position_type: { id: number; name: string }; }
 interface JobsResponse { count: number; results: Job[]; }
@@ -130,8 +128,7 @@ export default function BrowseJobs() {
               <div className="item-card-sub">
                 <span>${job.salary_min}–${job.salary_max}/hr</span>
                 <span>·</span>
-                <span>{new Date(job.start_time).toLocaleDateString()}</span>
-                {job.distance !== undefined && <><span>·</span><span>{job.distance} m away</span></>}
+                <span>{new Date(job.start_time).toLocaleDateString()} – {new Date(job.end_time).toLocaleDateString()}</span>
               </div>
             </div>
             <span style={{ color: "var(--text-muted)", fontSize: 18, alignSelf: "center" }}>›</span>

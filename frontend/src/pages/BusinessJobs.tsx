@@ -16,6 +16,7 @@ interface Job {
 interface JobsResponse { count: number; results: Job[]; }
 
 const LIMIT = 10;
+const ALL_STATUSES = ["open", "filled", "expired", "completed", "canceled"];
 
 export default function BusinessJobs() {
   const navigate = useNavigate();
@@ -26,13 +27,33 @@ export default function BusinessJobs() {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState<number | null>(null);
 
+  // filters
+  const [status, setStatus]       = useState("");
+  const [salaryMin, setSalaryMin] = useState("");
+  const [salaryMax, setSalaryMax] = useState("");
+
+  function buildQuery() {
+    const params = new URLSearchParams({ page: String(page), limit: String(LIMIT) });
+    if (status) params.set("status", status);
+    if (salaryMin) params.set("salary_min", salaryMin);
+    if (salaryMax) params.set("salary_max", salaryMax);
+    return params.toString();
+  }
+
   useEffect(() => {
     setLoading(true);
-    api.get<JobsResponse>(`/businesses/me/jobs?page=${page}&limit=${LIMIT}`)
+    api.get<JobsResponse>(`/businesses/me/jobs?${buildQuery()}`)
       .then((r) => { setJobs(r.results); setTotal(r.count); })
       .catch((err) => setError(err instanceof Error ? err.message : "Failed to load jobs"))
       .finally(() => setLoading(false));
-  }, [page]);
+  }, [page, status, salaryMin, salaryMax]);
+
+  function handleFilterChange(setter: (v: string) => void) {
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      setter(e.target.value);
+      setPage(1);
+    };
+  }
 
   async function handleDelete(jobId: number) {
     if (!window.confirm("Delete this job? This cannot be undone.")) return;
@@ -54,6 +75,45 @@ export default function BusinessJobs() {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22 }}>
         <h1 className="page-title" style={{ marginBottom: 0 }}>My Jobs</h1>
         <button className="btn btn-primary" onClick={() => navigate("/business/jobs/new")}>+ New Job</button>
+      </div>
+
+      {/* Filters */}
+      <div className="filter-row">
+        <div className="filter-group">
+          <label htmlFor="status-filter">Status</label>
+          <select id="status-filter" value={status} onChange={handleFilterChange(setStatus)}>
+            <option value="">All</option>
+            {ALL_STATUSES.map((s) => (
+              <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+            ))}
+          </select>
+        </div>
+        <div className="filter-group">
+          <label htmlFor="salary-min">Min salary</label>
+          <input
+            id="salary-min"
+            type="number"
+            placeholder="e.g. 15"
+            value={salaryMin}
+            onChange={handleFilterChange(setSalaryMin)}
+            className="form-input"
+            style={{ width: 100 }}
+            min={0}
+          />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="salary-max">Max salary</label>
+          <input
+            id="salary-max"
+            type="number"
+            placeholder="e.g. 30"
+            value={salaryMax}
+            onChange={handleFilterChange(setSalaryMax)}
+            className="form-input"
+            style={{ width: 100 }}
+            min={0}
+          />
+        </div>
       </div>
 
       {error && <p className="alert alert-error" role="alert">{error}</p>}
