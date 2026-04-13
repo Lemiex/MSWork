@@ -1,0 +1,21 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/auth': 'http://localhost:3000',
+      '/users': 'http://localhost:3000',
+      '/businesses': 'http://localhost:3000',
+      '/jobs': 'http://localhost:3000',
+      '/position-types': 'http://localhost:3000',
+      '/qualifications': 'http://localhost:3000',
+      '/system': 'http://localhost:3000',
+      '/negotiations': 'http://localhost:3000',
+      '/uploads': 'http://localhost:3000',
+      '/socket.io': { target: 'http://localhost:3000', ws: true },
+    },
+  },
+})

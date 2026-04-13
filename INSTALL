@@ -1,0 +1,105 @@
+# Temporary Staffing Platform
+
+A full-stack web application for temporary staffing, built with React (frontend) and Express + Prisma + SQLite (backend).
+
+## Prerequisites
+
+- Node.js (v18+)
+- npm
+
+## Setup & Run Locally
+
+### Backend
+
+```bash
+cd backend
+npm install
+
+npx prisma migrate dev        # create/apply database migrations
+npx prisma generate            # generate Prisma client
+npx prisma studio
+
+npm run seed                   # seed the database
+
+npm start                      # starts server on port 3000
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev                    # starts Vite dev server on http://localhost:5173
+```
+
+## Cleanup
+
+From the `A3/` directory:
+
+```bash
+make clean                     # removes node_modules and lockfiles
+```
+
+## Deployment (Railway)
+
+We deployed on Railway (https://railway.app). The backend and frontend are
+separate services in the same Railway project.
+
+### Railway Setup
+
+1. Create a new project on Railway.
+2. Add two services, each linked to the same GitHub repo but with different
+   root directories.
+
+### Backend Service
+
+- **Root directory:** `A3/backend`
+- **Build command:**
+  ```
+  npm install && npx prisma generate && npx prisma migrate deploy && npm run seed
+  ```
+- **Start command:**
+  ```
+  npm run start
+  ```
+- **Environment variables:**
+  | Variable       | Value                                              |
+  |----------------|----------------------------------------------------|
+  | DATABASE_URL   | file:./dev.db                                      |
+  | FRONTEND_URL   | https://<frontend-service>.up.railway.app           |
+
+### Frontend Service
+
+- **Root directory:** `A3/frontend`
+- **Build command:**
+  ```
+  npm run build
+  ```
+- **Start command:**
+  ```
+  npx serve -s dist
+  ```
+- **Environment variables:**
+  | Variable       | Value                                              |
+  |----------------|----------------------------------------------------|
+  | VITE_API_URL   | https://<backend-service>.up.railway.app            |
+
+
+### Our Deployed URLs
+
+- **Frontend:** https://ms-work.up.railway.app
+- **Backend:**  https://backend-production-d166.up.railway.app
+
+### Important Notes
+
+### Test Accounts (seeded)
+
+All passwords are: `123123`
+
+| Role     | Email                              |
+|----------|------------------------------------|
+| Admin    | admin1@csc309.utoronto.ca          |
+| Business | business1@csc309.utoronto.ca       |
+|          | ...through business12              |
+| User     | regular1@csc309.utoronto.ca        |
+|          | ...through regular20               |
