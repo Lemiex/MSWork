@@ -26,7 +26,8 @@ function create_app() {
   );
   app.use(express.json());
 
-  app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+  const uploadsDir = process.env.UPLOADS_DIR || path.join(__dirname, "../uploads");
+  app.use("/uploads", express.static(uploadsDir));
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/businesses", businessesRouter);

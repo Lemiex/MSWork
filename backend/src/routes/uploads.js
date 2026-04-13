@@ -10,7 +10,7 @@ const { requireAuth, requireRole } = require("../middleware/auth");
 
 const prisma = new PrismaClient();
 
-const UPLOADS_DIR = path.join(__dirname, "../../uploads");
+const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(__dirname, "../../uploads");
 const IMAGE_TYPES = ["image/png", "image/jpeg"];
 const PDF_TYPES = ["application/pdf"];
 
