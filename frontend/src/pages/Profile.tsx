@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from "react";
 import { api } from "../api";
 
+const BASE_URL = import.meta.env.VITE_API_URL ?? "";
+
 interface UserProfile {
   id: number;
   first_name: string;
@@ -133,7 +135,7 @@ export default function Profile() {
         <div className="profile-header">
           <div>
             {profile.avatar
-              ? <img className="avatar-img" src={profile.avatar} alt="Avatar" />
+              ? <img className="avatar-img" src={`${BASE_URL}${profile.avatar}`} alt="Avatar" />
               : <div className="avatar-placeholder">{initials}</div>
             }
           </div>
@@ -195,7 +197,7 @@ export default function Profile() {
 
             <div className="inline-row">
               {profile.resume
-                ? <a className="btn btn-ghost btn-sm" href={profile.resume} target="_blank" rel="noreferrer">View resume</a>
+                ? <a className="btn btn-ghost btn-sm" href={`${BASE_URL}${profile.resume}`} target="_blank" rel="noreferrer">View resume</a>
                 : <span style={{ fontSize: 14, color: "var(--text-muted)" }}>No resume uploaded</span>
               }
               <button className="btn btn-secondary btn-sm" onClick={() => resumeRef.current?.click()} disabled={uploading}>

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { api } from "../api";
 
+const BASE_URL = import.meta.env.VITE_API_URL ?? "";
+
 interface PositionType { id: number; name: string; description: string; }
 interface Qualification {
   id: number; status: string; note: string; document: string | null;
@@ -174,7 +176,7 @@ export default function Qualifications() {
               <div className="qual-actions">
                 {/* Document */}
                 {q.document
-                  ? <a className="btn btn-ghost btn-sm" href={q.document} target="_blank" rel="noreferrer">View document</a>
+                  ? <a className="btn btn-ghost btn-sm" href={`${BASE_URL}${q.document}`} target="_blank" rel="noreferrer">View document</a>
                   : <span style={{ fontSize: 13, color: "var(--text-muted)" }}>No document</span>
                 }
                 <input ref={docRef} type="file" accept="application/pdf" style={{ display: "none" }}

@@ -63,10 +63,10 @@ separate services in the same Railway project.
   npm run start
   ```
 - **Environment variables:**
-  | Variable       | Value                                              |
+  | Variable | Value |
   |----------------|----------------------------------------------------|
-  | DATABASE_URL   | file:./dev.db                                      |
-  | FRONTEND_URL   | https://<frontend-service>.up.railway.app           |
+  | DATABASE_URL | file:./dev.db |
+  | FRONTEND_URL | https://<frontend-service>.up.railway.app |
 
 ### Frontend Service
 
@@ -80,15 +80,14 @@ separate services in the same Railway project.
   npx serve -s dist
   ```
 - **Environment variables:**
-  | Variable       | Value                                              |
+  | Variable | Value |
   |----------------|----------------------------------------------------|
-  | VITE_API_URL   | https://<backend-service>.up.railway.app            |
-
+  | VITE_API_URL | https://<backend-service>.up.railway.app |
 
 ### Our Deployed URLs
 
-- **Frontend:** https://ms-work.up.railway.app
-- **Backend:**  https://backend-production-d166.up.railway.app
+- **Frontend:** https://accomplished-youthfulness-production-38a7.up.railway.app
+- **Backend:** https://backend-production-69e9.up.railway.app
 
 ### Important Notes
 
@@ -96,10 +95,10 @@ separate services in the same Railway project.
 
 All passwords are: `123123`
 
-| Role     | Email                              |
-|----------|------------------------------------|
-| Admin    | admin1@csc309.utoronto.ca          |
-| Business | business1@csc309.utoronto.ca       |
-|          | ...through business12              |
-| User     | regular1@csc309.utoronto.ca        |
-|          | ...through regular20               |
+| Role     | Email                        |
+| -------- | ---------------------------- |
+| Admin    | admin1@csc309.utoronto.ca    |
+| Business | business1@csc309.utoronto.ca |
+|          | ...through business12        |
+| User     | regular1@csc309.utoronto.ca  |
+|          | ...through regular20         |
